@@ -27,6 +27,7 @@ class Training:
     """Базовый класс тренировки."""
     M_IN_KM: int = 1000
     LEN_STEP: float = 0.65
+    MINS: int = 60
 
     def __init__(self,
                  action: int,
@@ -62,7 +63,6 @@ class Running(Training):
     """Тренировка: бег."""
     CALORIE_1: int = 18
     CALORIE_2: int = 20
-    MINS: int = 60
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
@@ -75,7 +75,6 @@ class SportsWalking(Training):
 
     CALORIE_1: float = 0.035
     CALORIE_2: float = 0.029
-    MINS: int = 60
 
     def __init__(self, action, duration, weight, height):
         super().__init__(action, duration, weight)
@@ -92,7 +91,6 @@ class Swimming(Training):
     """Тренировка: плавание."""
 
     LEN_STEP: float = 1.38
-    M_IN_KM: int = 1000
     CALORIE_1: float = 1.1
     CALORIE_2: int = 2
 
@@ -120,10 +118,9 @@ CURRENT_TRAINING = {'SWM': Swimming,
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
 
-    traning_data = CURRENT_TRAINING[workout_type](*data)
     if workout_type not in CURRENT_TRAINING:
         raise NotImplementedError('No such working type')
-    return traning_data
+    return CURRENT_TRAINING[workout_type](*data)
 
 
 def main(training: Training) -> None:
